@@ -9,6 +9,6 @@ window.APP_CONFIG = window.APP_CONFIG || {};
  */
 if (!window.APP_CONFIG.API_BASE_URL) {
   window.APP_CONFIG.API_BASE_URL =
-    window.APP_DEFAULT_API_BASE_URL || 'http://localhost:4000/api';
+    window.APP_DEFAULT_API_BASE_URL || 'https://8.138.149.208:4000/api';
 }
 
