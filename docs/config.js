@@ -6,9 +6,10 @@ window.APP_CONFIG = window.APP_CONFIG || {};
  *   - 生产环境: https://your-domain.com/api
  *
  * 部署到 GitHub Pages 时，请修改下方地址为您的后端公网地址。
+ * 注意：如果使用 IP 地址，请使用 http:// 而不是 https://
  */
 if (!window.APP_CONFIG.API_BASE_URL) {
   window.APP_CONFIG.API_BASE_URL =
-    window.APP_DEFAULT_API_BASE_URL || 'https://8.138.149.208:4000/api';
+    window.APP_DEFAULT_API_BASE_URL || 'http://8.138.149.208:4000/api';
 }
 
