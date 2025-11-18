@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>骞哥线上课堂</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="app-header">
+    <h1>骞哥线上课堂</h1>
+    <p>请选择视频进行观看，观看记录将自动统计</p>
+    <div id="student-info" style="margin-top: 1rem; display: none;">
+      <span id="student-name" style="color: var(--text-secondary);"></span>
+      <button id="logout-button" class="link-button" style="margin-left: 1rem;">退出登录</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <section class="card" id="grade-section">
+      <h2>选择年级</h2>
+      <div class="form-grid">
+        <label class="input-group">
+          <span>年级</span>
+          <select id="grade-select">
+            <option value="">加载中...</option>
+          </select>
+        </label>
+        <button id="apply-grade">进入年级</button>
+      </div>
+      <p id="grade-status" class="status-text"></p>
+    </section>
+
+    <section class="card">
+      <h2>视频列表</h2>
+      <ul id="video-list" class="video-list"></ul>
+    </section>
+
+    <section class="card" id="player-section" hidden>
+      <h2 id="player-title">视频预览</h2>
+      <video id="video-player" controls preload="metadata"></video>
+      <div class="video-meta">
+        <p><strong>原始文件名：</strong><span id="meta-name"></span></p>
+        <p><strong>上传时间：</strong><span id="meta-upload"></span></p>
+        <p><strong>所属年级：</strong><span id="meta-grade"></span></p>
+        <p><strong>最后观看：</strong><span id="meta-last-view"></span></p>
+        <p><strong>文件大小：</strong><span id="meta-size"></span></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>列表将自动刷新。如需上传视频，请联系管理员访问主控制台。</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="student.js"></script>
+</body>
+
+</html>

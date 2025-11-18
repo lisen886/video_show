@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>老师控制台</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="app-header">
+    <h1>老师控制台</h1>
+    <p>上传视频、预览播放、年级管理，并查看观看统计</p>
+  </header>
+
+  <main class="app-main">
+    <section class="card">
+      <div class="card-header">
+        <h2>上传新视频</h2>
+        <button id="logout-button" class="link-button">退出登录</button>
+      </div>
+      <form id="upload-form">
+        <label for="upload-input" class="file-label">
+          <span id="file-name">选择视频文件（可多选）</span>
+          <input type="file" id="upload-input" accept="video/*" multiple />
+        </label>
+        <div id="file-list" class="file-list" hidden></div>
+        <label class="select-label">
+          <span>选择年级</span>
+          <select id="grade-select" required>
+            <option value="">加载中...</option>
+          </select>
+        </label>
+        <label class="select-label">
+          <span>选择合集（可选）</span>
+          <select id="collection-select">
+            <option value="">不选择合集</option>
+          </select>
+        </label>
+        <button type="submit" id="upload-button" disabled>上传</button>
+      </form>
+      <div class="progress-container" id="progress-container" hidden>
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <p id="upload-status"></p>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>合集管理</h2>
+        <button id="toggle-collections-manager" class="link-button">管理合集</button>
+      </div>
+      <div id="collections-manager" hidden>
+        <div style="margin-bottom: 1rem;">
+          <button id="add-collection-button" class="link-button"
+            style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-bottom: 1rem;">添加合集</button>
+          <div id="add-collection-form"
+            style="display: none; padding: 1rem; background: rgba(59, 130, 246, 0.05); border-radius: 0.5rem; margin-bottom: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <label class="select-label">
+                <span>合集名称</span>
+                <input type="text" id="new-collection-name" placeholder="例如：11月视频作业"
+                  style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+              </label>
+              <label class="select-label">
+                <span>合集描述（可选）</span>
+                <input type="text" id="new-collection-description" placeholder="合集描述"
+                  style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+              </label>
+              <div style="display: flex; gap: 0.5rem;">
+                <button id="save-collection-button" class="link-button"
+                  style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">保存</button>
+                <button id="cancel-collection-button" class="link-button"
+                  style="background: #6c757d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="collections-list"></div>
+        <p id="collections-status" style="margin-top: 0.5rem;"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>年级管理</h2>
+        <button id="toggle-grades-manager" class="link-button">管理年级</button>
+      </div>
+      <div id="grades-manager" hidden>
+        <div style="margin-bottom: 1rem;">
+          <label class="select-label">
+            <span>年级列表（每行一个）</span>
+            <textarea id="grades-textarea" rows="6"
+              style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; resize: vertical;"></textarea>
+          </label>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="save-grades-button" class="link-button"
+            style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">保存</button>
+          <button id="cancel-grades-button" class="link-button"
+            style="background: #6c757d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">取消</button>
+        </div>
+        <p id="grades-status" style="margin-top: 0.5rem;"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>学生播放设置</h2>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0;">
+        <div>
+          <p style="margin: 0; font-weight: 500;">允许学生调整播放进度</p>
+          <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem; color: var(--text-secondary);">
+            开启后，学生可以拖拽进度条跳转播放位置
+          </p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="seek-toggle" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <p id="seek-status" style="margin-top: 0.75rem; font-size: 0.875rem;"></p>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>视频列表</h2>
+        <div class="card-actions">
+          <label class="inline-label">
+            <span>筛选年级</span>
+            <select id="grade-filter">
+              <option value="all">全部</option>
+            </select>
+          </label>
+          <button id="refresh-button" class="link-button">刷新列表</button>
+        </div>
+      </div>
+      <ul id="video-list" class="video-list"></ul>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>学生管理</h2>
+        <div style="position: relative; display: inline-block;">
+          <button id="toggle-students-manager" class="link-button">管理学生</button>
+          <span id="students-badge" class="badge" style="display: none; position: absolute; top: -8px; right: -8px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; line-height: 20px; text-align: center; font-weight: bold; min-width: 20px; padding: 0;">0</span>
+        </div>
+      </div>
+      <div id="students-manager" hidden>
+        <div style="margin-bottom: 1rem;">
+          <button id="add-student-button" class="link-button"
+            style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-bottom: 1rem;">添加学生</button>
+          <div id="add-student-form"
+            style="display: none; padding: 1rem; background: rgba(59, 130, 246, 0.05); border-radius: 0.5rem; margin-bottom: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <label class="select-label">
+                <span>用户名</span>
+                <input type="text" id="new-student-username" placeholder="请输入用户名"
+                  style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+              </label>
+              <label class="select-label">
+                <span>密码</span>
+                <input type="password" id="new-student-password" placeholder="请输入密码"
+                  style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+              </label>
+              <label class="select-label">
+                <span>姓名</span>
+                <input type="text" id="new-student-name" placeholder="请输入姓名（可选）"
+                  style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+              </label>
+              <label class="select-label">
+                <span>年级</span>
+                <select id="new-student-grade"
+                  style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                  <option value="">不指定</option>
+                </select>
+              </label>
+              <div style="display: flex; gap: 0.5rem;">
+                <button id="save-student-button" class="link-button"
+                  style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">保存</button>
+                <button id="cancel-student-button" class="link-button"
+                  style="background: #6c757d; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="students-list"></div>
+        <p id="students-status" style="margin-top: 0.5rem;"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>观看统计</h2>
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="refresh-stats-button" class="link-button">刷新统计</button>
+          <button id="export-stats-button" class="link-button"
+            style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">导出CSV</button>
+        </div>
+      </div>
+      <div id="stats-container">
+        <div style="margin-bottom: 1rem;">
+          <label class="inline-label">
+            <span>筛选方式</span>
+            <select id="stats-filter-type">
+              <option value="all">全部统计</option>
+              <option value="by-student">按学生</option>
+              <option value="by-video">按视频</option>
+            </select>
+          </label>
+          <label class="inline-label" id="stats-filter-label" style="display: none;">
+            <span id="stats-filter-label-text"></span>
+            <select id="stats-filter-value"></select>
+          </label>
+        </div>
+        <div id="stats-content"></div>
+      </div>
+    </section>
+
+    <section class="card" id="player-section" hidden>
+      <h2 id="player-title">视频预览</h2>
+      <video id="video-player" controls preload="metadata"></video>
+      <div class="video-meta">
+        <p><strong>原始文件名：</strong><span id="meta-name"></span></p>
+        <p><strong>上传时间：</strong><span id="meta-upload"></span></p>
+        <p><strong>所属年级：</strong><span id="meta-grade"></span></p>
+        <p><strong>所属合集：</strong><span id="meta-collection"></span></p>
+        <p><strong>观看次数：</strong><span id="meta-views"></span></p>
+        <p><strong>最后观看：</strong><span id="meta-last-view"></span></p>
+        <p><strong>文件大小：</strong><span id="meta-size"></span></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      当前后端地址：
+      <code id="api-base"></code>
+    </p>
+    <p>部署到 GitHub Pages 时，可修改 <code>config.js</code> 设置后端地址。</p>
+    <p>
+      学生访问请打开
+      <a href="student.html">学生播放器页面</a>。
+    </p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

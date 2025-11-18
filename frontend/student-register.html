@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学生注册 - 骞哥线上课堂</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .register-container {
+      max-width: 400px;
+      margin: 4rem auto;
+      padding: 2rem;
+    }
+
+    .register-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      background: var(--card);
+      color: var(--text-primary);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .register-button {
+      padding: 0.75rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .register-button:hover:not(:disabled) {
+      background: var(--accent-dark);
+    }
+
+    .register-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .success-message {
+      color: #28a745;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="register-container">
+    <div class="card">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="margin: 0 0 0.5rem 0;">骞哥线上课堂</h1>
+        <p style="color: var(--text-secondary); margin: 0;">学生注册</p>
+      </div>
+      <form id="register-form" class="register-form">
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input type="text" id="username" name="username" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input type="password" id="password" name="password" required autocomplete="new-password" />
+        </div>
+        <div class="form-group">
+          <label for="name">姓名（可选）</label>
+          <input type="text" id="name" name="name" autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label for="grade">年级（可选）</label>
+          <select id="grade" name="grade">
+            <option value="">不指定</option>
+          </select>
+        </div>
+        <button type="submit" id="register-button" class="register-button">注册</button>
+        <p id="error-message" class="error-message" style="display: none;"></p>
+        <p id="success-message" class="success-message" style="display: none;"></p>
+        <div style="text-align: center; margin-top: 1rem;">
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">
+            已有账号？
+            <a href="student-login.html" style="color: var(--accent); text-decoration: none;">立即登录</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="student-register.js"></script>
+</body>
+
+</html>
+
