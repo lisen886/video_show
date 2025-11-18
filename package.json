@@ -1,0 +1,23 @@
+{
+  "name": "video-show",
+  "version": "1.0.0",
+  "description": "视频教学管理系统 - 支持 GitHub Pages 和独立服务器部署",
+  "scripts": {
+    "setup:server": "node scripts/setup-server-deploy.js",
+    "setup:server:bash": "bash scripts/setup-server-deploy.sh",
+    "backend:install": "cd backend && npm install",
+    "backend:start": "cd backend && npm start",
+    "backend:dev": "cd backend && npm run dev"
+  },
+  "keywords": [
+    "video",
+    "teaching",
+    "management",
+    "github-pages",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "private": true
+}
+

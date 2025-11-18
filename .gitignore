@@ -1,2 +1,7 @@
 .DS_Store
 data/
+
+# 服务器部署时的 frontend 目录
+# 如果 frontend 是符号链接（指向 docs），Git 会跟踪它指向的内容，这是期望的行为
+# 如果 frontend 是普通目录（复制的情况），则会被忽略，避免提交重复代码
+frontend

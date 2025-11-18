@@ -102,7 +102,7 @@ npm run dev
 
 5. **配置前端**
 
-编辑 `frontend/config.js`，设置后端 API 地址：
+编辑 `docs/config.js`，设置后端 API 地址：
 
 ```javascript
 window.APP_CONFIG = {
@@ -112,12 +112,54 @@ window.APP_CONFIG = {
 
 6. **部署前端**
 
-将 `frontend` 目录部署到 GitHub Pages 或任何静态文件服务器。
+本项目支持两种部署方式：
+
+##### 方式一：GitHub Pages 部署（推荐）
+
+前端文件位于 `docs` 目录，可直接通过 GitHub Pages 部署：
+
+1. 在 GitHub 仓库设置中启用 GitHub Pages
+2. 选择 `main` 分支的 `docs` 目录作为源
+3. GitHub Pages 会自动从 `docs` 目录提供服务
+
+##### 方式二：独立服务器部署
+
+如果需要在独立服务器上部署，可以使用以下方法：
+
+**方法 A：使用符号链接（推荐）**
+
+运行部署脚本创建 `frontend` 符号链接：
+
+```bash
+# 使用 Node.js 脚本（跨平台）
+npm run setup:server
+
+# 或使用 Bash 脚本（Linux/macOS）
+npm run setup:server:bash
+# 或直接运行
+bash scripts/setup-server-deploy.sh
+```
+
+这会在项目根目录创建 `frontend -> docs` 的符号链接，服务器可以配置使用 `frontend` 目录，而 GitHub Pages 继续使用 `docs` 目录。
+
+**方法 B：直接使用 docs 目录**
+
+服务器配置直接指向 `docs` 目录即可，无需额外操作。
+
+**方法 C：复制文件（不推荐）**
+
+如果需要完全独立的 `frontend` 目录：
+
+```bash
+cp -r docs frontend
+```
+
+但这种方式需要维护两份代码，不推荐使用。
 
 ## 项目结构
 
 ```
-video_demo_zq/
+video_show/
 ├── backend/                 # 后端代码
 │   ├── src/
 │   │   ├── config.js       # 配置管理
@@ -141,7 +183,7 @@ video_demo_zq/
 │   │       ├── settings.js
 │   │       └── viewRecords.js
 │   └── package.json
-├── frontend/                # 前端代码
+├── docs/                    # 前端代码（GitHub Pages 部署目录）
 │   ├── index.html          # 管理员页面
 │   ├── login.html          # 管理员登录
 │   ├── student.html        # 学生页面
@@ -151,6 +193,9 @@ video_demo_zq/
 │   ├── student.js          # 学生页面逻辑
 │   ├── config.js           # 前端配置
 │   └── styles.css          # 样式文件
+├── scripts/                 # 部署脚本
+│   ├── setup-server-deploy.sh  # 服务器部署设置脚本（Bash）
+│   └── setup-server-deploy.js  # 服务器部署设置脚本（Node.js）
 ├── data/                   # 数据文件（JSON）
 │   ├── videos.json
 │   ├── students.json
@@ -158,8 +203,15 @@ video_demo_zq/
 │   ├── collections.json
 │   ├── grades.json
 │   └── settings.json
-└── uploads/                # 视频上传目录（本地存储）
+├── uploads/                # 视频上传目录（本地存储）
+├── package.json            # 根目录 package.json（包含部署脚本）
+└── README.md               # 项目说明文档
 ```
+
+**注意：**
+- `docs/` 目录是前端代码的主目录，用于 GitHub Pages 部署
+- 服务器部署时，运行 `npm run setup:server` 会创建 `frontend -> docs` 符号链接
+- `frontend/` 目录（如果存在）是符号链接，指向 `docs/`，无需维护两份代码
 
 ## API 文档
 
@@ -329,7 +381,7 @@ npm run dev
 
 ### 添加新功能
 - 后端路由：在 `backend/src/routes/` 添加新路由文件
-- 前端页面：在 `frontend/` 添加新的 HTML/JS 文件
+- 前端页面：在 `docs/` 添加新的 HTML/JS 文件
 
 ## 许可证
 

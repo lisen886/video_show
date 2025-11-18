@@ -102,7 +102,7 @@ npm run dev
 
 5. **Configure frontend**
 
-Edit `frontend/config.js` and set the backend API URL:
+Edit `docs/config.js` and set the backend API URL:
 
 ```javascript
 window.APP_CONFIG = {
@@ -112,12 +112,54 @@ window.APP_CONFIG = {
 
 6. **Deploy frontend**
 
-Deploy the `frontend` directory to GitHub Pages or any static file server.
+This project supports two deployment methods:
+
+##### Method 1: GitHub Pages Deployment (Recommended)
+
+Frontend files are located in the `docs` directory and can be deployed directly via GitHub Pages:
+
+1. Enable GitHub Pages in your repository settings
+2. Select the `docs` directory from the `main` branch as the source
+3. GitHub Pages will automatically serve from the `docs` directory
+
+##### Method 2: Standalone Server Deployment
+
+If you need to deploy on a standalone server, you can use the following methods:
+
+**Method A: Using Symbolic Links (Recommended)**
+
+Run the deployment script to create a `frontend` symbolic link:
+
+```bash
+# Using Node.js script (cross-platform)
+npm run setup:server
+
+# Or using Bash script (Linux/macOS)
+npm run setup:server:bash
+# Or run directly
+bash scripts/setup-server-deploy.sh
+```
+
+This will create a `frontend -> docs` symbolic link in the project root. The server can be configured to use the `frontend` directory, while GitHub Pages continues to use the `docs` directory.
+
+**Method B: Directly Use docs Directory**
+
+Configure the server to point directly to the `docs` directory. No additional steps required.
+
+**Method C: Copy Files (Not Recommended)**
+
+If you need a completely independent `frontend` directory:
+
+```bash
+cp -r docs frontend
+```
+
+However, this method requires maintaining two copies of the code, which is not recommended.
 
 ## Project Structure
 
 ```
-video_demo_zq/
+video_show/
 ├── backend/                 # Backend code
 │   ├── src/
 │   │   ├── config.js       # Configuration management
@@ -141,7 +183,7 @@ video_demo_zq/
 │   │       ├── settings.js
 │   │       └── viewRecords.js
 │   └── package.json
-├── frontend/                # Frontend code
+├── docs/                    # Frontend code (GitHub Pages deployment directory)
 │   ├── index.html          # Admin page
 │   ├── login.html          # Admin login
 │   ├── student.html        # Student page
@@ -151,6 +193,9 @@ video_demo_zq/
 │   ├── student.js          # Student page logic
 │   ├── config.js           # Frontend configuration
 │   └── styles.css          # Stylesheet
+├── scripts/                 # Deployment scripts
+│   ├── setup-server-deploy.sh  # Server deployment setup script (Bash)
+│   └── setup-server-deploy.js  # Server deployment setup script (Node.js)
 ├── data/                   # Data files (JSON)
 │   ├── videos.json
 │   ├── students.json
@@ -158,8 +203,15 @@ video_demo_zq/
 │   ├── collections.json
 │   ├── grades.json
 │   └── settings.json
-└── uploads/                # Video upload directory (local storage)
+├── uploads/                # Video upload directory (local storage)
+├── package.json            # Root package.json (contains deployment scripts)
+└── README.md               # Project documentation
 ```
+
+**Note:**
+- The `docs/` directory is the main frontend code directory for GitHub Pages deployment
+- When deploying on a server, running `npm run setup:server` will create a `frontend -> docs` symbolic link
+- The `frontend/` directory (if it exists) is a symbolic link pointing to `docs/`, so you don't need to maintain two copies of the code
 
 ## API Documentation
 
@@ -329,7 +381,7 @@ npm run dev
 
 ### Adding New Features
 - Backend routes: Add new route files in `backend/src/routes/`
-- Frontend pages: Add new HTML/JS files in `frontend/`
+- Frontend pages: Add new HTML/JS files in `docs/` (or `frontend/` if using symbolic link)
 
 ## License
 
