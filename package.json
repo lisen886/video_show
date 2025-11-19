@@ -5,6 +5,8 @@
   "scripts": {
     "setup:server": "node scripts/setup-server-deploy.js",
     "setup:server:bash": "bash scripts/setup-server-deploy.sh",
+    "check:backend": "bash scripts/check-backend.sh",
+    "check:bt": "bash scripts/check-bt-server.sh",
     "backend:install": "cd backend && npm install",
     "backend:start": "cd backend && npm start",
     "backend:dev": "cd backend && npm run dev"
@@ -20,4 +22,3 @@
   "license": "ISC",
   "private": true
 }
-

@@ -102,8 +102,10 @@ function createApp() {
 
 if (require.main === module) {
   const app = createApp();
-  app.listen(PORT, () => {
-    console.log(`🚀 视频服务已启动，端口: ${PORT}`);
+  // 监听所有网络接口，允许外部访问（重要：宝塔/云服务器部署必须）
+  const HOST = process.env.HOST || '0.0.0.0';
+  app.listen(PORT, HOST, () => {
+    console.log(`🚀 视频服务已启动，地址: http://${HOST}:${PORT}`);
   });
 }
 

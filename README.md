@@ -118,9 +118,22 @@ window.APP_CONFIG = {
 
 前端文件位于 `docs` 目录，可直接通过 GitHub Pages 部署：
 
-1. 在 GitHub 仓库设置中启用 GitHub Pages
-2. 选择 `main` 分支的 `docs` 目录作为源
-3. GitHub Pages 会自动从 `docs` 目录提供服务
+1. **在 GitHub 仓库设置中启用 GitHub Pages**
+   - 进入仓库的 `Settings` -> `Pages`
+   - 在 `Source` 部分，选择 `Deploy from a branch`
+   - 选择 `main` 分支
+   - 选择 `/docs` 文件夹
+   - 点击 `Save`
+
+2. **等待部署完成**
+   - GitHub Pages 通常需要几分钟来构建和部署
+   - 部署完成后，您可以在 `Settings` -> `Pages` 页面看到您的网站地址
+   - 网站地址格式：`https://<username>.github.io/<repository-name>/`
+
+3. **注意事项**
+   - `docs` 目录中已包含 `.nojekyll` 文件，确保 GitHub Pages 正确处理所有文件
+   - 确保 `docs/index.html` 文件存在（已包含）
+   - 如果部署后页面显示 404，请检查 GitHub Pages 设置是否正确
 
 ##### 方式二：独立服务器部署
 
@@ -184,6 +197,7 @@ video_show/
 │   │       └── viewRecords.js
 │   └── package.json
 ├── docs/                    # 前端代码（GitHub Pages 部署目录）
+│   ├── .nojekyll           # GitHub Pages 配置文件（禁用 Jekyll）
 │   ├── index.html          # 管理员页面
 │   ├── login.html          # 管理员登录
 │   ├── student.html        # 学生页面
@@ -353,6 +367,39 @@ ALLOWED_GRADES=七年级,八年级,九年级,高一,高二
 4. 审批通过后登录
 5. 浏览并观看视频
 
+## GitHub Pages 故障排除
+
+如果遇到 "There isn't a GitHub Pages site here" 或 404 错误，请检查以下事项：
+
+1. **检查 GitHub Pages 设置**
+   - 进入仓库的 `Settings` -> `Pages`
+   - 确认 `Source` 设置为 `Deploy from a branch`
+   - 确认分支选择为 `main`
+   - 确认文件夹选择为 `/docs`
+   - 点击 `Save` 保存设置
+
+2. **检查必要文件**
+   - 确认 `docs/.nojekyll` 文件存在（已包含）
+   - 确认 `docs/index.html` 文件存在（已包含）
+   - 确认所有前端文件都在 `docs` 目录中
+
+3. **等待部署完成**
+   - GitHub Pages 部署通常需要 1-5 分钟
+   - 在 `Settings` -> `Pages` 页面查看部署状态
+   - 如果显示 "Your site is live at..." 说明部署成功
+
+4. **检查仓库权限**
+   - 确保仓库不是私有的（私有仓库需要 GitHub Pro）
+   - 或者使用 GitHub Actions 部署到其他分支
+
+5. **清除浏览器缓存**
+   - 部署完成后，清除浏览器缓存或使用无痕模式访问
+
+6. **检查 URL 路径**
+   - 如果仓库名称是 `video_show`，访问地址应该是：
+     `https://<username>.github.io/video_show/`
+   - 注意 URL 末尾的斜杠 `/`
+
 ## 注意事项
 
 1. **安全性**
@@ -366,10 +413,30 @@ ALLOWED_GRADES=七年级,八年级,九年级,高一,高二
 
 3. **CORS 配置**
    - 确保 `CLIENT_ORIGIN` 配置正确，允许前端域名访问
+   - GitHub Pages 部署时，`CLIENT_ORIGIN` 应设置为您的 GitHub Pages URL
 
 4. **数据备份**
    - 定期备份 `data/` 目录下的 JSON 文件
    - 如使用本地存储，需备份 `uploads/` 目录
+
+## 服务器部署
+
+### 宝塔 Linux 部署
+
+详细的宝塔面板部署指南请参考：[DEPLOY_BT.md](./DEPLOY_BT.md)
+
+快速步骤：
+1. 上传项目到 `/www/wwwroot/video-show`
+2. 安装依赖：`cd backend && npm install`
+3. 配置环境变量（创建 `.env` 文件）
+4. 使用 PM2 启动：`pm2 start ecosystem.config.js`
+5. 在宝塔面板开放 4000 端口
+6. 配置阿里云安全组开放 4000 端口
+
+### 其他部署方式
+
+- **Docker 部署**：可参考 Dockerfile（如有）
+- **传统部署**：使用 `npm start` 或 `node src/server.js`
 
 ## 开发
 

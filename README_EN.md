@@ -118,9 +118,22 @@ This project supports two deployment methods:
 
 Frontend files are located in the `docs` directory and can be deployed directly via GitHub Pages:
 
-1. Enable GitHub Pages in your repository settings
-2. Select the `docs` directory from the `main` branch as the source
-3. GitHub Pages will automatically serve from the `docs` directory
+1. **Enable GitHub Pages in your repository settings**
+   - Go to your repository's `Settings` -> `Pages`
+   - In the `Source` section, select `Deploy from a branch`
+   - Select the `main` branch
+   - Select the `/docs` folder
+   - Click `Save`
+
+2. **Wait for deployment to complete**
+   - GitHub Pages usually takes a few minutes to build and deploy
+   - After deployment, you can see your website URL on the `Settings` -> `Pages` page
+   - Website URL format: `https://<username>.github.io/<repository-name>/`
+
+3. **Notes**
+   - The `docs` directory already contains a `.nojekyll` file to ensure GitHub Pages processes all files correctly
+   - Make sure the `docs/index.html` file exists (already included)
+   - If you see a 404 after deployment, check that GitHub Pages settings are correct
 
 ##### Method 2: Standalone Server Deployment
 
@@ -184,6 +197,7 @@ video_show/
 │   │       └── viewRecords.js
 │   └── package.json
 ├── docs/                    # Frontend code (GitHub Pages deployment directory)
+│   ├── .nojekyll           # GitHub Pages config file (disable Jekyll)
 │   ├── index.html          # Admin page
 │   ├── login.html          # Admin login
 │   ├── student.html        # Student page
@@ -353,6 +367,39 @@ ALLOWED_GRADES=七年级,八年级,九年级,高一,高二
 4. Login after approval
 5. Browse and watch videos
 
+## GitHub Pages Troubleshooting
+
+If you encounter "There isn't a GitHub Pages site here" or 404 errors, check the following:
+
+1. **Check GitHub Pages Settings**
+   - Go to your repository's `Settings` -> `Pages`
+   - Confirm `Source` is set to `Deploy from a branch`
+   - Confirm the branch is set to `main`
+   - Confirm the folder is set to `/docs`
+   - Click `Save` to save the settings
+
+2. **Check Required Files**
+   - Confirm `docs/.nojekyll` file exists (already included)
+   - Confirm `docs/index.html` file exists (already included)
+   - Confirm all frontend files are in the `docs` directory
+
+3. **Wait for Deployment**
+   - GitHub Pages deployment usually takes 1-5 minutes
+   - Check deployment status on the `Settings` -> `Pages` page
+   - If it shows "Your site is live at..." the deployment was successful
+
+4. **Check Repository Permissions**
+   - Ensure the repository is not private (private repos require GitHub Pro)
+   - Or use GitHub Actions to deploy to a different branch
+
+5. **Clear Browser Cache**
+   - After deployment, clear your browser cache or use incognito mode
+
+6. **Check URL Path**
+   - If the repository name is `video_show`, the access URL should be:
+     `https://<username>.github.io/video_show/`
+   - Note the trailing slash `/` in the URL
+
 ## Important Notes
 
 1. **Security**
@@ -366,6 +413,7 @@ ALLOWED_GRADES=七年级,八年级,九年级,高一,高二
 
 3. **CORS Configuration**
    - Ensure `CLIENT_ORIGIN` is configured correctly to allow frontend domain access
+   - When deploying to GitHub Pages, `CLIENT_ORIGIN` should be set to your GitHub Pages URL
 
 4. **Data Backup**
    - Regularly backup JSON files in the `data/` directory
